@@ -13,3 +13,6 @@ const myArray = [1,2,3];
 let result = copyArrayAndMultiplyBy2(myArray);
 
 console.log(result);
+
+// Callstack
+// 
