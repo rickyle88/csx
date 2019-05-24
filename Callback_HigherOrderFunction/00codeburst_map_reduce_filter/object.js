@@ -92,7 +92,7 @@ const loopNestedObj = (obj) => {
 // const tmp1 = loopNestedObj(validation_messages);
 
 // Same as function above, but with ES7 Object.entries instead of Object.keys:
-const loopNestedObj = (obj) => {
+const loopNestedObj1 = (obj) => {
     Object.entries(obj).forEach(([key, val]) => {
         if (val && typeof val === 'object') loopNestedObj(val);  // recurse.
         else console.log(key, val);  // or do something with key and val.
@@ -101,7 +101,7 @@ const loopNestedObj = (obj) => {
 
 //////////////////////////////////
 // If you are into functional programming you can use Object.keys/Object.entries to enumerate the object, then process the values and then use reduce() to convert back to a new object.
-const loopNestedObj = (obj) =>
+const loopNestedObj2 = (obj) =>
     Object.keys(obj)
         // Use .filter(), .map(), etc. if you need.
         .reduce((newObj, key) =>
@@ -112,3 +112,68 @@ const loopNestedObj = (obj) =>
 /////////////////////////////////////////////////////////////////
 
 
+// If you use recursion you can return object properties of any depth-
+// return => string
+function lookdeep(object){
+    var collection= [], index= 0, next, item;
+    for(item in object){
+        if(object.hasOwnProperty(item)){
+            next= object[item];
+            if(typeof next== 'object' && next!= null){
+                collection[index++]= item +
+                ':{ '+ lookdeep(next).join(', ')+'}';
+            }
+            else collection[index++]= [item+':'+String(next)];
+        }
+    }
+    return collection;
+}
+
+//example
+
+var O={
+    a:1, b:2, c:{
+        c1:3, c2:4, c3:{
+            t:true, f:false
+        }
+    },
+    d:11
+};
+var lookdeepSample= 'O={'+ lookdeep(O).join(',\n')+'}';
+// Return a string
+console.log(lookdeepSample);        
+console.log(typeof(lookdeepSample));
+/*  returned value: (String)
+O={
+    a:1, 
+    b:2, 
+    c:{
+        c1:3, c2:4, c3:{
+            t:true, f:false
+        }
+    },
+    d:11
+}
+
+*/
+
+let t2 = lookdeep(O);
+console.log(typeof(t2));
+for(let i = 0; i < t2.length; i++){
+    console.log(t2[i]);
+}
+
+
+/*  returned value: (String)
+O={
+    a:1, 
+    b:2, 
+    c:{
+        c1:3, c2:4, c3:{
+            t:true, f:false
+        }
+    },
+    d:11
+}
+
+*/
