@@ -57,6 +57,8 @@ for (let t in tmp) {
 // https://stackoverflow.com/questions/39965579/how-to-loop-an-object-in-react
 
 /////////////////////////////////////////////////////////////////
+// https://stackoverflow.com/questions/921789/how-to-loop-through-a-plain-javascript-object-with-the-objects-as-members
+
 var myObj = {
     a: 'foo',
     b: 'bar'
