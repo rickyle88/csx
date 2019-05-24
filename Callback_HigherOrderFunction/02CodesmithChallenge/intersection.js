@@ -8,36 +8,63 @@
 
 // Here is a code sample from my csx solution, a helper function which finds the repeated elements in two arrays:
 
-function repeatedElems(arr1, arr2){
+function repeatedElems(arr1, arr2) {
     const output = [];
-    for (let i = 0; i < arr1.length; i++){
-      if (arr2.includes(arr1[i])){
-          output.push(arr1[i]);    
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr2.includes(arr1[i])) {
+            output.push(arr1[i]);
         }
     }
-    
+
     return output;
-  }
+}
 
 //   Then, you should simply keep calling that function feeding as inputs the result of the previous call and the next array, and return the last result. Something like this:
 
-function intersection(arrOfArr){
+function intersection(arrOfArr) {
     let repeatedElemsArray = Array.from(arrOfArr[0]);  // The use of Array.from() makes so that we create a new copy of array at position 0, and we don't modify the original array.
-    for (let i = 1; i < arrOfArr.length; i++){
+    for (let i = 1; i < arrOfArr.length; i++) {
         const nextArray = arrOfArr[i];
         repeatedElemsArray = repeatedElems(repeatedElemsArray, nextArray);
     }
-    
+
     return repeatedElemsArray;
-  }
+}
 
 //   However, this kind of functionality is exactly what reduce is intended for (reduce an array of many elements to a single output). In this case, we want to reduce an array of arrays to a single output array, which contains only the repeated elements. This last solution makes use of reduce power (and filter):
 
-function intersection(arrOfArr){
-    return arrOfArr.reduce((arr1, arr2) => arr1.filter(x => arr2.includes(x)));
-  }
+function intersection(arrOfArr) {
+    return arrOfArr.reduce((arr1, arr2) => arr1.filter(x => !arr2.includes(x)));
+}
 
 //   It effectively does the same the other two functions did in conjunction, *but concentrates that whole functionality in a single line*. Isn't that beautiful :heart_eyes: That's why you should learn reduce, map and filter. They will be your best friends, those you can almost always count on
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in
+// Uncomment these to check your work!
+const arr1 = [5, 10, 15, 20];
+const arr2 = [15, 88, 1, 5, 7];
+const arr3 = [1, 10, 15, 5, 20];
+console.log(intersection([arr1, arr2, arr3])); // should log: [5, 15]
+
+let team = [
+    { name: 'cong phuong', country: 'Viet Nam' },
+    { name: 'Ronaldo', country: 'Portugal' },
+    { name: 'Quang Hai', country: 'Viet Nam' },
+    { name: 'Messi', country: 'Argentina' },
+    { name: 'Nani', country: 'Portugal' },
+]
+
+//Nhiệm vụ chúng ta làm sao nhóm được các cầu thủ by quốc gia.
+
+// dùng reduce().
+
+    Array.prototype.groupBy = function (prop) {
+        return this.reduce(function (groups, item) {
+            const val = item[prop];
+            groups[val] = groups[val] || [];
+            groups[val].push(item);
+            return groups;
+        }, {})
+    };
+console.log(team.groupBy('country'));
